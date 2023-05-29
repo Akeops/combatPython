@@ -31,7 +31,7 @@ pv2 = int(input("Entre le nombre de pv du deuxième joueur"))
 print()
 
 # Début du combat #
-msg1 = personnage1 + " (" + str(pv1) + " PV) affronte " + personnage2 + " (" + str(pv2) + " PV)"
+msg1 = f"{personnage1} {str(pv1)} PV) affronte {personnage2} ({str(pv2)} PV)"
 
 print("+" * (len(msg1)+ 4)) # Petites étoiles qui entourent le texte #
 print("+ " + msg1 + " +")
@@ -62,8 +62,8 @@ else:
 
 
 pv2 -= damages
-msg1 = personnage1 + " attaque " + attack +  " sur " + personnage2 + " qui perd " + str(damages) + " PV."
-msg2 = personnage2 + " a maintenant " + str(pv2) + " !"
+msg1 = f"{personnage1} attaque {attack} sur {personnage2} qui perd {str(damages)} PV."
+msg2 = f"{personnage2} a maintenant {str(pv2)} PV !"
 max_size = max(len(msg1), len(msg2))
 msg1 += ' ' * (max_size - len(msg1))
 msg2 += ' ' * (max_size - len(msg2))
@@ -96,8 +96,8 @@ else:
 print()
 
 pv1 -= damages
-msg1 = personnage2 + " attaque " + attack +  " sur " + personnage1 + " qui perd " + str(damages) + " PV."
-msg2 = personnage1 + " a maintenant " + str(pv1) + " PV !"
+msg1 = f"{personnage2} attaque {attack} sur {personnage1} qui perd {str(damages)} PV."
+msg2 = f"{personnage1} a maintenant {str(pv1)} PV !"
 max_size = max(len(msg1), len(msg2))
 msg1 += ' ' * (max_size - len(msg1))
 msg2 += ' ' * (max_size - len(msg2))
@@ -107,14 +107,14 @@ print("+", msg2, "+")
 print("+" * (max_size + 4))
 
 if pv1 == pv2:
-    msg1 = personnage1 + " et " + personnage2 + "ont le même nombre de PV."
+    msg1 = f"{personnage1} et {personnage2} ont tous les deux {pv1}."
     msg2 = "Il y a donc égalité !"
 if pv1 > pv2:
-    msg1 = personnage1 + " " + str(pv1) +  " PV, a plus de PV que " + personnage2 + " " + str(pv2) + " PV."
-    msg2 = personnage1 + " est le vainqueur du combat !"
+    msg1 = f"{personnage1} {str(pv1)} PV, a plus de PV que {personnage2} {str(pv2)} PV."
+    msg2 = f"{personnage1} est le vainqueur du combat !"
 elif pv2 > pv1:
-    msg1 = personnage2 + " " + str(pv2) + " PV, a plus de PV que " + personnage1 + " " + str(pv1) + " PV."
-    msg2 = personnage2 + " est le vainqueur du combat !"
+    msg1 = f"{personnage2} {str(pv2)} PV, a plus de PV que {personnage1} {str(pv1)} PV."
+    msg2 = f"{personnage2} est le vainqueur du combat !"
 
 print()
 
