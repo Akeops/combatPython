@@ -31,7 +31,7 @@ pv2 = int(input("Entre le nombre de pv du deuxième joueur"))
 print()
 
 # Début du combat #
-msg1 = personnage1 + " (" + str(pv1) + "pv) affronte " + personnage2 + " (" + str(pv2) + "pv)"
+msg1 = personnage1 + " (" + str(pv1) + " PV) affronte " + personnage2 + " (" + str(pv2) + " PV)"
 
 print("+" * (len(msg1)+ 4)) # Petites étoiles qui entourent le texte #
 print("+ " + msg1 + " +")
@@ -39,24 +39,39 @@ print("+" * (len(msg1)+ 4))
 
 print()
 
-
 # Tour 1 - personnage1 attaque personnage2 #
-att1 = int(input(personnage1 + " combien de dégats infligez-vous à " + personnage2 + " ?"))
+att1 = int(input(personnage1 + ", quel attaque voulez-vous utiliser ?\n 1. Charge (-20 PV)\n 2. Tonnerre (-40 PV)"))
+msg1 = personnage1 + " attaque Charge sur " + personnage2 + " et celui-ci perd 20 PV"
+
+msg2 = personnage1 + " attaque Tonnerre sur " + personnage2 + " et celui-ci perd 40 PV"
 
 print()
 
-pv2 -= att1
-msg1 = personnage1 + " attaque " + personnage2 + " qui perd " + str(att1)
-msg2 = personnage2 + " a maintenant " + str(pv2) + " PV"
-max_size = max(len(msg1), len(msg2))
-msg1 += ' ' * (max_size - len(msg1))
-msg2 += ' ' * (max_size - len(msg2))
+if att1 == 1:
+    pv2 -= 20
+    pvRestant2 = personnage2 + " a maintenant " + str(pv2) + " !"
+    max_size = max(len(msg1), len(msg2), len(pvRestant2))
+    pvRestant2 += ' ' * (max_size - len(pvRestant2))
+    msg1 += ' ' * (max_size - len(msg1))
+    msg2 += ' ' * (max_size - len(msg2))
+    print("+" * (max_size + 4))
+    print("+", msg1, "+")
+    print("+", pvRestant2, "+")
+    print("+" * (max_size + 4))
 
-# Affichage de l'attaque #
-print("+" * (max_size + 4))
-print("+", msg1, "+")
-print("+", msg2, "+")
-print("+" * (max_size + 4))
+elif att1 == 2:
+    pv2 -= 40
+    pvRestant2 = personnage2 + " a maintenant " + str(pv2) + " !"
+    max_size = max(len(msg1), len(msg2), len(pvRestant2))
+    pvRestant2 += ' ' * (max_size - len(pvRestant2))
+    msg1 += ' ' * (max_size - len(msg1))
+    msg2 += ' ' * (max_size - len(msg2))
+    print("+" * (max_size + 4))
+    print("+", msg2, "+")
+    print("+", pvRestant2, "+")
+    print("+" * (max_size + 4))
+else:
+    print("Vous n'avez pas choisi d'attaque. Vous passez donc le tour.")
 
 print()
 
