@@ -1,27 +1,3 @@
-# This is a sample Python script.
-
-# Press Maj+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
-
-class Personnage :
-    def __init__(self, nom, pv):
-        self.nom = nom
-        self.pv = pv
-
-
-
 personnage1 = input("Entrez le nom du premier joueur").capitalize()
 pv1 = int(input("Entre le nombre de pv du premier joueur"))
 
@@ -58,7 +34,7 @@ elif att1 == "2" or att1 == "tonnerre":
 else:
     damages = 0
     attack = ""
-    print("Vous n'avez pas choisi d'attaque. Vous passez donc le tour.")
+    print("Vous n'avez pas choisi",  pv2 , "d'attaque. Vous passez donc le tour.")
 
 
 pv2 -= damages
