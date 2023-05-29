@@ -49,7 +49,7 @@ print()
 
 if att1 == 1:
     pv2 -= 20
-    pvRestant2 = personnage2 + " a maintenant " + str(pv2) + " !"
+    pvRestant2 = personnage2 + " a maintenant " + str(pv2) + " PV !"
     max_size = max(len(msg1), len(msg2), len(pvRestant2))
     pvRestant2 += ' ' * (max_size - len(pvRestant2))
     msg1 += ' ' * (max_size - len(msg1))
