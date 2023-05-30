@@ -6,8 +6,12 @@ pv2 = int(input("Entre le nombre de pv du deuxième joueur"))
 
 print()
 
+attack_names = ["charge", "tonnerre"]
+attack_damages = [20, 40]
+
+
 # Début du combat #
-msg1 = f"{personnage1} {str(pv1)} PV) affronte {personnage2} ({str(pv2)} PV)"
+msg1 = f"{personnage1} {str(pv1)} (PV) affronte {personnage2} ({str(pv2)} PV)"
 
 print("+" * (len(msg1)+ 4)) # Petites étoiles qui entourent le texte #
 print("+ " + msg1 + " +")
@@ -16,29 +20,29 @@ print("+" * (len(msg1)+ 4))
 print()
 
 # Tour 1 - personnage1 attaque personnage2 #
-menu = ''', quelle attaque voulez-vous utiliser ?
-1. Charge (-20 PV)
-2. Tonnerre (-40 PV)'''
+menu = f''', quelle attaque voulez-vous utiliser ?
+{attack_names}'''
+
+
 
 print()
 print(personnage1, menu)
-att1 = input('> ').lower()
-print()
+i = 0
+for name in attack_names:
+    print(f"{i + 1}. {attack_names[i].capitalize()} ({attack_damages[i]} Dégats)")
+    i += 1
 
-if att1 == "1" or att1 == "charge":
-    damages = 20
-    attack = "charge"
-elif att1 == "2" or att1 == "tonnerre":
-    damages = 40
-    attack = "tonnerre"
-else:
-    damages = 0
-    attack = ""
-    print("Vous n'avez pas choisi",  pv2 , "d'attaque. Vous passez donc le tour.")
+att1 = input('> ')
+while not att1.isdigit or not 1 <= int(att1) <= len(attack_names):
+    print("Veuillez entrer une bonne réponse")
+    att1 = input('> ')
 
+
+att1_idx = int(att1) - 1
+damages = attack_damages[att1_idx]
 
 pv2 -= damages
-msg1 = f"{personnage1} attaque {attack} sur {personnage2} qui perd {str(damages)} PV."
+msg1 = f"{personnage1} attaque {attack_names[att1_idx]} sur {personnage2} qui perd {damages} PV."
 msg2 = f"{personnage2} a maintenant {str(pv2)} PV !"
 max_size = max(len(msg1), len(msg2))
 msg1 += ' ' * (max_size - len(msg1))
