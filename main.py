@@ -1,11 +1,14 @@
 personnage1 = input("Entrez le nom du premier joueur").capitalize()
 pv1_str = input("Entre le nombre de pv du premier joueur")
+
 while not pv1_str.isdigit():
     print("Vous n'avez pas entré un nombre, veuillez réessayer")
     pv1_str = input("Entre le nombre de pv du premier joueur")
 pv1 = int(pv1_str)
+
 personnage2 = input("Entrez le nom du deuxième joueur").capitalize()
 pv2_str = input("Entre le nombre de pv du deuxième joueur")
+
 while not pv2_str.isdigit():
     print("Vous n'avez pas entré un nombre, veuillez réessayer")
     pv2_str = input("Entre le nombre de pv du premier joueur")
