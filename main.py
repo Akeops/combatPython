@@ -1,27 +1,33 @@
 personnage1 = input("Entrez le nom du premier joueur").capitalize()
-pv1 = int(input("Entre le nombre de pv du premier joueur"))
-
+pv1_str = input("Entre le nombre de pv du premier joueur")
+while not pv1_str.isdigit():
+    print("Vous n'avez pas entré un nombre, veuillez réessayer")
+    pv1_str = input("Entre le nombre de pv du premier joueur")
+pv1 = int(pv1_str)
 personnage2 = input("Entrez le nom du deuxième joueur").capitalize()
-pv2 = int(input("Entre le nombre de pv du deuxième joueur"))
+pv2_str = input("Entre le nombre de pv du deuxième joueur")
+while not pv2_str.isdigit():
+    print("Vous n'avez pas entré un nombre, veuillez réessayer")
+    pv2_str = input("Entre le nombre de pv du premier joueur")
+pv2 = int(pv2_str)
 
 print()
 
+msg1 = f"{personnage1} {str(pv1)} (PV) affronte {personnage2} ({str(pv2)} PV)"
+
+print("+" * (len(msg1)+ 4)) # Petites étoiles qui entourent le texte #
+print("+ " + msg1 + " +")
+print("+" * (len(msg1)+ 4))
+
+# Début du combat #
 while pv1 > 0 and pv2 > 0:
 
     attack_names = ["charge", "tonnerre"]
     attack_damages = [20, 40]
 
-
-    # Début du combat #
-    msg1 = f"{personnage1} {str(pv1)} (PV) affronte {personnage2} ({str(pv2)} PV)"
-
-    print("+" * (len(msg1)+ 4)) # Petites étoiles qui entourent le texte #
-    print("+ " + msg1 + " +")
-    print("+" * (len(msg1)+ 4))
-
     print()
 
-    # Tour 1 - personnage1 attaque personnage2 #
+    # Personnage1 attaque Personnage2 #
     menu = f''', quelle attaque voulez-vous utiliser ?'''
 
     print()
