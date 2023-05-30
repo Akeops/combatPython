@@ -1,14 +1,18 @@
 personnage1 = input("Entrez le nom du premier joueur").capitalize()
 pv1_str = input("Entre le nombre de pv du premier joueur")
 
+# Si l'utilisateur met autre chose qu'un nombre ça remet le champ de saisi.
 while not pv1_str.isdigit():
     print("Vous n'avez pas entré un nombre, veuillez réessayer")
     pv1_str = input("Entre le nombre de pv du premier joueur")
+
+# int(), str(), bool() etc... permet de transformer la variable dans le type que l'on veut.
 pv1 = int(pv1_str)
 
 personnage2 = input("Entrez le nom du deuxième joueur").capitalize()
 pv2_str = input("Entre le nombre de pv du deuxième joueur")
 
+# isdigit() est une fonction python qui permet de dire si la variable est un nombre ou non. True si c'est un nombre, False sinon.
 while not pv2_str.isdigit():
     print("Vous n'avez pas entré un nombre, veuillez réessayer")
     pv2_str = input("Entre le nombre de pv du premier joueur")
@@ -22,7 +26,7 @@ print("+" * (len(msg1)+ 4)) # Petites étoiles qui entourent le texte #
 print("+ " + msg1 + " +")
 print("+" * (len(msg1)+ 4))
 
-# Début du combat #
+# Début du combat
 while pv1 > 0 and pv2 > 0:
 
     attack_names = ["charge", "tonnerre"]
@@ -30,7 +34,7 @@ while pv1 > 0 and pv2 > 0:
 
     print()
 
-    # Personnage1 attaque Personnage2 #
+    # Personnage1 attaque Personnage2
     menu = f''', quelle attaque voulez-vous utiliser ?'''
 
     print()
@@ -65,7 +69,7 @@ while pv1 > 0 and pv2 > 0:
         msg2 = f"{personnage1} est le vainqueur du combat !"
         break
 
-    # Tour 1 = personnage2 attaque personnage1 #
+    # Personnage2 attaque Personnage1
     attack_names2 = ["tacle", "séisme"]
     attack_damages2 = [15, 45]
     menu = f''', quelle attaque voulez-vous utiliser ?'''
