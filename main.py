@@ -6,18 +6,20 @@ monsters = {
     },
     "grolem" : {
         "name" : "Grolem",
-        "attacks" : ["tacle", "seisme"]
+        "attacks" : ["tacle", "seisme"],
+        "damages" : [15, 45]
     },
     "carapuce" : {
         "name" : "Carapuce",
-        "attacks" : ["charge", "pistolet à O"]
+        "attacks" : ["charge", "pistolet à O"],
+        "damages" : [20, 35]
     }
 }
 
 attacks = {
     "charge" : {"damages" : 20},
     "tacle" : {"damages" : 15},
-    "tonnerre" : {"damages" : 35},
+    "tonnerre" : {"damages" : 40},
     "seisme" : {"damages" : 40},
     "pistolet à O" : {"damages" : 35},
 }
@@ -32,7 +34,7 @@ for pokemon in monsters.values():
 
 players = []
 
-print("Personnage 1, quel monstre choisissez-vous ?")
+print("Joueur 1, quel pokémon choisissez-vous ?")
 name = input("> ").lower()
 while name not in monsters:
     print("Ce pokémon n'est pas disponible")
@@ -60,7 +62,7 @@ print("Pokémon disponible :")
 for pokemon in monsters.values():
     print("-", pokemon["name"])
 
-print("Personnage 2, quel monstre choisissez-vous ?")
+print("Joueur 2, quel pokémon choisissez-vous ?")
 name = input("> ").lower()
 while name not in monsters:
     print("Ce pokémon n'est pas disponible")
@@ -76,8 +78,7 @@ pv = int(pv2_str)
 players.append({"id" : "2", "name" : name, "PV" : pv})
 
 print()
-#print(monsters[0].get('attacks'))
-#print()
+
 msg1 = f"{players[0].get('name')} {str(players[0].get('PV'))} (PV) affronte {players[1].get('name')} ({str(players[1].get('PV'))} PV)"
 
 print("+" * (len(msg1)+ 4)) # Petites étoiles qui entourent le texte #
@@ -88,14 +89,18 @@ print()
 
 
 # Début du combat
+i = 0
 while players[0].get('PV') > 0 and players[1].get('PV') > 0:
+    print("Tour numéro :", i)
+    if i < 1:
+        pv1 = players[0].get('PV')
+        pv2 = players[1].get('PV')
+        player1 = players[0].get('name')
+        player2 = players[1].get('name')
 
-    pv1 = players[0].get('PV')
-    pv2 = players[1].get('PV')
-    player1 = players[0].get('name')
-    player2 = players[1].get('name')
+    print()
 
-    print("Veuillez choisir l'attaque que vous voulez lancer ?")
+    print(players[0].get('name'), ", Veuillez choisir l'attaque que vous voulez lancer ?")
     if players[0].get('name') == 'pikachu':
             print('1 -', monsters['pikachu']['attacks'][0].capitalize(), '(', attacks['charge']['damages'], ' dégats)')
             print('2 -', monsters['pikachu']['attacks'][1].capitalize(), '(', attacks['tonnerre']['damages'], ' dégats)')
@@ -106,6 +111,28 @@ while players[0].get('PV') > 0 and players[1].get('PV') > 0:
             att1_idx = int(att1) - 1
             attaque1 = monsters['pikachu']['attacks'][att1_idx]
             damage1 = monsters['pikachu']['damages'][att1_idx]
+    elif players[0].get('name') == 'grolem':
+        print('1 -', monsters['grolem']['attacks'][0].capitalize(), '(', attacks['tacle']['damages'], ' dégats)')
+        print('2 -', monsters['grolem']['attacks'][1].capitalize(), '(', attacks['seisme']['damages'], ' dégats)')
+        att1 = input('> ')
+        while not att1.isdigit() or not 1 <= int(att1) <= len(monsters['grolem']['attacks']):
+            print("Réponse incorrect, veuillez réessayer")
+            att1 = input('> ')
+        att1_idx = int(att1) - 1
+        attaque1 = monsters['grolem']['attacks'][att1_idx]
+        damage1 = monsters['grolem']['damages'][att1_idx]
+    elif players[0].get('name') == 'carapuce':
+        print('1 -', monsters['carapuce']['attacks'][0].capitalize(), '(', attacks['charge']['damages'], ' dégats)')
+        print('2 -', monsters['carapuce']['attacks'][1].capitalize(), '(', attacks['pistolet à O']['damages'], ' dégats)')
+        att1 = input('> ')
+        while not att1.isdigit() or not 1 <= int(att1) <= len(monsters['carapuce']['attacks']):
+            print("Réponse incorrect, veuillez réessayer")
+            att1 = input('> ')
+        att1_idx = int(att1) - 1
+        attaque1 = monsters['carapuce']['attacks'][att1_idx]
+        damage1 = monsters['carapuce']['damages'][att1_idx]
+
+    print()
 
 
     pv2 -= damage1
@@ -119,64 +146,51 @@ while players[0].get('PV') > 0 and players[1].get('PV') > 0:
     print("+", msg2, "+")
     print("+" * (max_size + 4))
 
-    # Personnage1 attaque Personnage2
-
-
-    print()
-    print(players[0].get('name'), menu)
-    i = 0
-    for name in attack_names:
-        print(f"{i + 1}. {attack_names[i].capitalize()} ({attack_damages[i]} Dégats)")
-        i += 1
-
-    att1 = input('> ')
-    while not att1.isdigit or not 1 <= int(att1) <= len(attack_names):
-        print("Veuillez entrer une bonne réponse")
-        att1 = input('> ')
-
-
-    att1_idx = int(att1) - 1
-    damages = monsters['pikachu']['damages'][att1_idx]
-
-    pv2 -= damages
-    msg1 = f"{players[0]} attaque {attack_names[att1_idx]} sur {personnage2} qui perd {damages} PV."
-    msg2 = f"{personnage2} a maintenant {str(pv2)} PV !"
-    max_size = max(len(msg1), len(msg2))
-    msg1 += ' ' * (max_size - len(msg1))
-    msg2 += ' ' * (max_size - len(msg2))
-    print("+" * (max_size + 4))
-    print("+", msg1, "+")
-    print("+", msg2, "+")
-    print("+" * (max_size + 4))
-
     if pv2 <= 0:
-        msg1 = f"{personnage2} est K.O"
-        msg2 = f"{personnage1} est le vainqueur du combat !"
+        msg1 = f"{player2} n'a plus de PV."
+        msg2 = f"{player1} est le vainqueur de ce combat combat !"
         break
 
-    # Personnage2 attaque Personnage1
-    attack_names2 = ["tacle", "séisme"]
-    attack_damages2 = [15, 45]
-    menu = f''', quelle attaque voulez-vous utiliser ?'''
-
     print()
-    print(personnage2, menu)
-    i = 0
-    for name in attack_names2:
-        print(f"{i + 1}. {attack_names2[i].capitalize()} ({attack_damages2[i]} Dégats)")
-        i += 1
 
-    att2 = input('> ')
-    while not att2.isdigit or not 1 <= int(att2) <= len(attack_names2):
-        print("Veuillez entrer une bonne réponse")
+    # Personnage2 attaque Personnage1
+
+    print(players[1].get('name'), "Veuillez choisir l'attaque que vous voulez lancer ?")
+    if players[1].get('name') == 'pikachu':
+        print('1 -', monsters['pikachu']['attacks'][0].capitalize(), '(', attacks['charge']['damages'], ' dégats)')
+        print('2 -', monsters['pikachu']['attacks'][1].capitalize(), '(', attacks['tonnerre']['damages'], ' dégats)')
         att2 = input('> ')
+        while not att2.isdigit() or not 1 <= int(att2) <= len(monsters['pikachu']['attacks']):
+            print("Réponse incorrect, veuillez réessayer")
+            att2 = input('> ')
+        att2_idx = int(att2) - 1
+        attaque2 = monsters['pikachu']['attacks'][att2_idx]
+        damage2 = monsters['pikachu']['damages'][att2_idx]
+    elif players[1].get('name') == 'grolem':
+        print('1 -', monsters['grolem']['attacks'][0].capitalize(), '(', attacks['tacle']['damages'], ' dégats)')
+        print('2 -', monsters['grolem']['attacks'][1].capitalize(), '(', attacks['seisme']['damages'], ' dégats)')
+        att2 = input('> ')
+        while not att2.isdigit() or not 1 <= int(att2) <= len(monsters['grolem']['attacks']):
+            print("Réponse incorrect, veuillez réessayer")
+            att2 = input('> ')
+        att2_idx = int(att2) - 1
+        attaque2 = monsters['grolem']['attacks'][att2_idx]
+        damage2 = monsters['grolem']['damages'][att2_idx]
+    elif players[1].get('name') == 'carapuce':
+        print('1 -', monsters['carapuce']['attacks'][0].capitalize(), '(', attacks['charge']['damages'], ' dégats)')
+        print('2 -', monsters['carapuce']['attacks'][1].capitalize(), '(', attacks['pistolet à O']['damages'],
+              ' dégats)')
+        att2 = input('> ')
+        while not att2.isdigit() or not 1 <= int(att2) <= len(monsters['carapuce']['attacks']):
+            print("Réponse incorrect, veuillez réessayer")
+            att2 = input('> ')
+        att2_idx = int(att2) - 1
+        attaque2 = monsters['carapuce']['attacks'][att2_idx]
+        damage2 = monsters['carapuce']['damages'][att2_idx]
 
-    att2_idx = int(att2) - 1
-    damages = attack_damages2[att2_idx]
-
-    pv1 -= damages
-    msg1 = f"{personnage2} attaque {attack_names2[att2_idx]} sur {players[0]} qui perd {str(damages)} PV."
-    msg2 = f"{players[0]} a maintenant {str(players[0, 2])} PV !"
+    pv1 -= damage2
+    msg1 = f"{player2} attaque {attaque2} sur {player1} qui perd {damage2} PV."
+    msg2 = f"{player2} a maintenant {str(pv1)} PV !"
     max_size = max(len(msg1), len(msg2))
     msg1 += ' ' * (max_size - len(msg1))
     msg2 += ' ' * (max_size - len(msg2))
@@ -187,9 +201,11 @@ while players[0].get('PV') > 0 and players[1].get('PV') > 0:
 
 
     if pv1 <= 0:
-        msg1 = f"{players[0]} est K.O"
-        msg2 = f"{personnage2} est le vainqueur du combat !"
+        msg1 = f"{player1} n'a plus de PV."
+        msg2 = f"{player2} est le vainqueur de ce combat combat !"
+        break
 
+    i += 1
 
 print()
 
