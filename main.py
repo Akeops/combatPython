@@ -1,4 +1,4 @@
-monsters = {
+pokemons = {
     "pikachu" : {
         "name" : "Pikachu",
         "attacks" : ["charge", "tonnerre"],
@@ -24,77 +24,94 @@ attacks = {
     "ecume" : {"damages" : 35},
 }
 
+def getChoicesInput(choices, error_message):
+    entry = input('> ').lower()
+    while entry not in choices:
+        print(error_message)
+        entry = input('> ').lower()
+    return choices[entry]
 
-# Choix Pokémon du Personnage1
-print("Pokémon disponible :")
-for pokemon in monsters.values():
-    print("-", pokemon["name"])
+def getPlayer(player_id):
+    print("Joueur", player_id, ", quel pokémons chosissez-vous ?")
+    pokemon = getChoicesInput(pokemons, "Pokémon invalide")
+    pv = int(input("Combien de PV a votre pokémon ?"))
+    return {'id' : player_id, 'pokemon' : pokemon, 'pv' : pv}
 
-players = []
+def get_players():
+    print("Pokémons disponiblent :")
+    for pokemon in pokemons.values():
+        print('-', pokemon['name'])
+    return getPlayer(1), getPlayer(2)
 
-# Boucle pour créer 2 joueurs sans se répéter
-for i in range(2):
-    player_id = i + 1
-    print("Joueur", player_id, "quel pokémon choisissez-vous ?")
+def applyAttack(attack, opponent):
+    opponent['pv'] -= attack['damages']
+    if opponent['pv'] < 0:
+        opponent['pv'] == 0
 
-    name = input('> ').lower()
-    while name not in monsters:
-        print('Pokémon invalide')
-        name = input('> ').lower()
+def gameTurn(player, opponent):
+    # Si le joueur est KO, il n'attaque pas
+    if player['pv'] <= 0:
+        return
 
-    print("Quel est son nombre de PV ?")
-    pv_str = input('> ')
-    while not pv_str.isdigit():
-        print("Ce n'est pas un nombre")
-        pv_str = input('> ')
 
-    pv = int(pv_str)
-    players.append({"id": player_id, "pokemon": monsters[name], "pv": pv})
+    print('Joueur', player['id'], 'quelle attaque utilisez-vous ?')
+    for name in player['pokemon']['attacks']:
+        print('-', name.capitalize(), -attacks[name]['damages'], 'PV')
 
+    attack = getChoicesInput(attacks, 'Attaque invalide')
+    applyAttack(attack, opponent)
+
+
+    print(player['pokemon']['name'], "attaque",
+          opponent['pokemon']['name'],
+          "qui perd", attack['damages'], "PV, il lui reste",
+          opponent['pv'], "PV",
+          )
+
+def getWinner(player1, player2):
+    if player1['pv'] > player2['pv']:
+        return player1
+    else:
+        return player2
+
+player1, player2 = get_players()
 
 print()
-print(players[0]['pokemon']['name'], players[0]['pv'], "PV affronte", players[1]['pokemon']['name'], players[1]['pv'],"PV ")
+print(player1['pokemon']['name'], player1['pv'], "PV affronte", player2['pokemon']['name'], player2['pv'], "PV ")
 print()
 
-# Représente les tours de jeu, liste de couples (joueur, opposant)
-turns = [
-    (players[0], players[1]),
-    (players[1], players[0]),
-]
 
-# Début du combat
-i = 0
-nombreDeTour = 1
-while players[0]['pv'] > 0 and players[1]['pv'] > 0:
-    print()
-    print("Tour", nombreDeTour)
-    for player, opponent in turns:
-        if player['pv'] > 0:
-            print("Joueur", player['id'], ", quel attaque utilisez-vous ?")
-            for name in player['pokemon']['attacks']:
-                print('-', name.capitalize(), attacks[name]['damages'], 'PV')
 
-            att_name = input('> ').lower()
-            while att_name not in attacks:
-                print("Vous n'avez pas pris d'attaque existente")
-                att_name = input('> ').lower()
-            attack = attacks[att_name]
+while player1['pv'] > 0 and player2['pv'] > 0:
+    gameTurn(player1, player2)
+    gameTurn(player2, player1)
 
-            opponent['pv'] -= attack['damages']
+winner = getWinner(player1, player2)
+print('Le joueur', winner['id'], 'remporte le combat avec', winner['pokemon']['name'])
 
-            print()
+def test_apply_attack():
+    player = {'id': 0, 'monster': pokemons['pykachu'], 'pv': 100}
 
-            print(player['pokemon']['name'], "attaque",
-                  opponent['pokemon']['name'],
-                  "qui perd", attack['damages'], "PV, il lui reste",
-                  opponent['pv'], "PV"
-            )
-            nombreDeTour += 1
-            print()
+    applyAttack(attacks['brûlure'], player)
+    assert player['pv'] == 60
 
-if players[0]['pv'] <= 0:
-    winner = players[1]
-    print(players[0]['pokemon']['name'], "n'a plus de PV, le joueur", winner['id'], "remporte le combat avec", players[1]['pokemon']['name'])
-else:
-    winner = players[0]
-    print(players[1]['pokemon']['name'], "n'a plus de PV, le joueur", winner['id'], "remporte le combat avec", players[0]['pokemon']['name'])
+    applyAttack(attacks['tonnerre'], player)
+    assert player['pv'] == 10
+
+    applyAttack(attacks['charge'], player)
+    assert player['pv'] == 0
+
+
+def test_get_winner():
+    player1 = {'id': 0, 'pokemon': pokemons['pykachu'], 'pv': 100}
+    player2 = {'id': 0, 'pokemon': pokemons['grolem'], 'pv': 0}
+    assert getWinner(player1, player2) == player1
+    assert getWinner(player2, player1) == player1
+
+    player2['pv'] = 120
+    assert getWinner(player1, player2) == player2
+    assert getWinner(player2, player1) == player2
+
+    player1['pv'] = player2['pv'] = 0
+    assert getWinner(player1, player2) == player2
+    assert getWinner(player2, player1) == player1
