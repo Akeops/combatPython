@@ -25,8 +25,6 @@ attacks = {
 }
 
 
-
-
 # Choix Pokémon du Personnage1
 print("Pokémon disponible :")
 for pokemon in monsters.values():
@@ -34,6 +32,7 @@ for pokemon in monsters.values():
 
 players = []
 
+# Boucle pour créer 2 joueurs sans se répéter
 for i in range(2):
     player_id = i + 1
     print("Joueur", player_id, "quel pokémon choisissez-vous ?")
@@ -52,16 +51,16 @@ for i in range(2):
     pv = int(pv_str)
     players.append({"id": player_id, "pokemon": monsters[name], "pv": pv})
 
-# Affichage du texte
+
 print()
 print(players[0]['pokemon']['name'], players[0]['pv'], "PV affronte", players[1]['pokemon']['name'], players[1]['pv'],"PV ")
 print()
 
+# Représente les tours de jeu, liste de couples (joueur, opposant)
 turns = [
     (players[0], players[1]),
     (players[1], players[0]),
 ]
-
 
 # Début du combat
 i = 0
@@ -99,6 +98,3 @@ if players[0]['pv'] <= 0:
 else:
     winner = players[0]
     print(players[1]['pokemon']['name'], "n'a plus de PV, le joueur", winner['id'], "remporte le combat avec", players[0]['pokemon']['name'])
-
-
-
