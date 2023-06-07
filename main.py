@@ -115,3 +115,17 @@ def test_get_winner():
     player1['pv'] = player2['pv'] = 0
     assert getWinner(player1, player2) == player2
     assert getWinner(player2, player1) == player1
+
+if __name__ == '__main__':
+    player1, player2 = get_players()
+
+    print()
+    print(player1['pokemon']['name'], player1['pv'], "PV affronte", player2['pokemon']['name'], player2['pv'], "PV ")
+    print()
+
+    while player1['pv'] > 0 and player2['pv'] > 0:
+        gameTurn(player1, player2)
+        gameTurn(player2, player1)
+
+    winner = getWinner(player1, player2)
+    print('Le joueur', winner['id'], 'remporte le combat avec', winner['pokemon']['name'])
